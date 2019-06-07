@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml version="2.0">
+	
+<category>
+ <pattern>^ nivel 0 ^</pattern>
+ <template>
+	<set name="topic">nivel 0</set> activado!
+ </template>
+</category>
+
+
+<topic name="nivel 0">
+<!-- pregunta 1 -->
+<category>
+	<pattern>^ [aproba+ supe+] ^ practica+ ^</pattern>
+	<template>
+		Asistiendo y participando en clase y haciendo las tres practicas y un examen y que la media de igual a 5 o superior.
+	</template>
+</category>
+
+<!-- pregunta 2 -->
+<category>
+	<pattern>^ [evalua+ calcul+ pondera+] ^ ordinaria+ ^</pattern>
+	<template>
+		Se evalua la parte practica y parte toerica , ambas partes tienen que hacer media y dar minimo un 5.
+		Para que se haga media hay que disponer de minimo un 3 en una de las partes.
+	</template>
+</category>
+
+<!-- pregunta 3 -->
+<category>
+	<pattern>^ [examen+ prueba+ control+] ^ practica+ ^ extraordinaria+ ^</pattern>
+	<template>
+		Si, efectivamente, junto con la parte teorica.
+	</template>
+</category>
+
+<!-- pregunta 4 -->
+<category>
+	<pattern>^ [asis+ ir] ^ [regularmente regularidad frecuencia frecuentemente] ^</pattern>
+	<template>
+		Deberias replantearte la opcion de solicitar evaluacion unica final.
+	</template>
+</category>
+
+<!-- pregunta 5 -->
+<category>
+	<pattern>^ hay ^ [nota+ calificacion+] minima+ ^</pattern>
+	<template>
+		Si, minimo hay que obtener un 5.
+	</template>
+</category>
+
+<!-- pregunta 6 -->
+<category>
+	<pattern>^ practica+ ^ obliga+ ^</pattern>
+	<template>
+		Si, totalmente tanto aprobarlas como la asistencia a las mismas.
+	</template>
+</category>
+
+<!-- pregunta 7 -->
+<category>
+	<pattern>^ val+ ^ practi+ ^</pattern>
+	<template>
+		Un venticinco porciento.
+	</template>
+</category>
+
+<!-- pregunta 8 -->
+<category>
+	<pattern>^ val+ ^ parti+ ^</pattern>
+	<template>
+		Un diez porciento.
+	</template>
+</category>
+
+<!-- pregunta 9 -->
+<category>
+	<pattern>^ [punto+ nota+ calificacion premio+] ^ parti+ ^</pattern>
+	<template>
+		Saliendo a resolver ejercicios y problemas en clase de practicas.
+	</template>
+</category>
+
+<!-- pregunta 10 -->
+<category>
+	<pattern>^ [trabajo+ proyecto+ practica+] ^ individual+ ^</pattern>
+	<template>
+		Si, obligatoriamente.
+	</template>
+</category>
+
+<!-- pregunta 11 -->
+<category>
+	<pattern>^ [hacer elaborar confeccionar implementar] ^ grupo+ ^</pattern>
+	<template>
+		No, esta prohibido.
+	</template>
+</category>
+
+<!-- pregunta 12 -->
+<category>
+	<pattern>^ [relacion+ coleccion+] ^ problem+ ^</pattern>
+	<template>
+		No hay entregas, pero si es muy recomendable hacerlos.
+	</template>
+</category>
+
+<!-- preguntas 13 y 26 -->
+<category>
+	<pattern>^ primer+ [examen prueba control] ^ teori+ ^</pattern>
+	<template>
+		Un ciencuenta porciento de la nota teorica.
+	</template>
+</category>
+
+<!-- pregunta 14 -->
+<category>
+	<pattern>^ [recupe+] ^ </pattern>
+	<template>
+		No hay recuperaciones
+	</template>
+</category>
+
+<!-- pregunta 15-16 -->
+<category>
+	<pattern>^ [copi+ plagi+ fals+] ^</pattern>
+	<template>
+		Que suspendes totalmente la asignatura tu y la persona que te dejo su trabajo.
+	</template>
+</category>
+
+<!-- pregunta 17 -->
+<category>
+	<pattern>^ suspen+ ^ ordinaria ^</pattern>
+	<template>
+		Que iras a la extraordinaria con teoria y practicas.
+	</template>
+</category>
+
+<!-- pregunta 18 -->
+<category>
+	<pattern>^ cuanto ^ val+ ^ practic+ ^ y ^ teori+ ^</pattern>
+	<template>
+		50 y 50
+	</template>
+</category>
+
+<!-- pregunta 19 -->
+<category>
+	<pattern>^ tutori+ ^ practic+ ^</pattern>
+	<template>
+		Lunes de 10:00 a 13:00 en D24 (ETSIIT)
+		Miercoles de 10:00 a 13:00 en D24 (ETSIIT)
+	</template>
+</category>
+
+<!-- pregunta 20 -->
+<category>
+	<pattern>^ [aproba+ supe+] ^ practica+ ^ una practica ^</pattern>
+	<template>
+		Si, si tienes suficiente nota en el resto de practicas.
+	</template>
+</category>
+
+<!-- pregunta 21 -->
+<category>
+	<pattern>^ [nota+ calificacion+] ^ minima ^ media ^</pattern>
+	<template>
+		Hay que sacar minimo un 3 en una de las partes para poder hacer media.
+	</template>
+</category>
+
+<!-- pregunta 22 -->
+<category>
+	<pattern>^ practica 1 ^ nivel 3 ^</pattern>
+	<template>
+		Obtendras un 6 por tener la practica 0 y 1 superada.
+	</template>
+</category>
+
+<!-- pregunta 23 -->
+<category>
+	<pattern>^ practica 1 ^ nivel 0 ^</pattern>
+	<template>
+		No, el nivel 0 es indispensable.
+	</template>
+</category>
+
+<!-- pregunta 24 -->
+<category>
+	<pattern>^ [asistir ir] ^ [defensa exposicion explicacion] ^ practica 1 ^</pattern>
+	<template>
+		Justificarlo debidamente.
+	</template>
+</category>
+
+<!-- pregunta 25 -->
+<category>
+	<pattern>^ [cuantas cuantos numero] ^ teori+ ^</pattern>
+	<template>
+		Dos pruebas.
+	</template>
+</category>
+
+<!-- pregunta 26 -->
+<!-- Ver pregunta 13 -->
+
+<!-- pregunta 27 -->
+<category>
+	<pattern>^ [examen prueba] ^ ejercicios ^</pattern>
+	<template>
+		En resolver problemas tipicos de IA.
+	</template>
+</category>
+
+<!-- pregunta 28 -->
+<category>
+	<pattern>^ no ^ [poder tener] ^ nivel 3 ^ practica 1 ^</pattern>
+	<template>
+		No defender el nivel 3 y hacerlo lo mejor posible en el nivel 0-1-2.
+	</template>
+</category>
+
+<!-- pregunta 29 -->
+<category>
+	<pattern>^ practica 1 ^ lenguaje ^</pattern>
+	<template>
+		Va a ser que no.
+	</template>
+</category>
+
+<!-- pregunta 30 -->
+<category>
+	<pattern>^ agente+ ^ conversacional+ ^</pattern>
+	<template>
+		Si le pones una careta tal vez cuela ....
+	</template>
+</category>
+
+</topic>
+</aiml>

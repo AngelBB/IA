@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml version="2.0">
+<category>
+ <pattern>^ nivel 3 ^</pattern>
+ <template>
+	<set name="topic">nivel 3</set> activado!
+</template>
+</category>
+
+
+<topic name="nivel 3">
+	
+	<!-- ########## Preguntas color ########## -->
+	
+	<!-- Punto de entrada -->
+	<category>
+		<pattern>^ [empezar e comenzar iniciar jugar] ^</pattern>
+		<template>
+			es roja?
+		</template>
+	</category>
+	
+	<!-- Rojo -->
+	<category>
+		<pattern>[si s]</pattern>
+		<that>es roja</that>
+		<template>
+			<think>
+				<srai>seleccionar_color rojo</srai>
+			</think>
+			es pequeña?
+		</template>
+	</category>
+	
+	<category>
+		<pattern>[no n]</pattern>
+		<that>es roja</that>
+		<template>
+			es amarilla?
+		</template>
+	</category>
+	
+	<!--Amarillo -->
+	<category>
+		<pattern>[si s]</pattern>
+		<that>es amarilla</that>
+		<template>
+			la fruta tiene mas de un color aparte del amarillo?
+		</template>
+	</category>
+	
+	
+	<category>
+		<pattern>[si s]</pattern>
+		<that>la fruta tiene mas de un color aparte del amarillo</that>
+		<template>
+			<think>
+				<srai>seleccionar_color amarillo</srai>
+				<srai>descartar_fruta PLATANO</srai>
+			</think>
+			es pequeña?
+		</template>
+	</category>
+	
+	<category>
+		<pattern>[no n]</pattern>
+		<that>la fruta tiene mas de un color aparte del amarillo</that>
+		<template>
+			La fruta es: PLATANO
+		</template>
+	</category>
+	
+	<category>
+		<pattern>[no n]</pattern>
+		<that>es amarilla</that>
+		<template>
+			es verde?
+		</template>
+	</category>
+	
+	<!-- Verde -->
+	<category>
+		<pattern>[si s]</pattern>
+		<that>es verde</that>
+		<template>
+			<think>
+				<srai>seleccionar_color verde</srai>
+			</think>
+			es pequeña?
+		</template>
+	</category>	
+	
+	<category>
+		<pattern>[no n]</pattern>
+		<that>es verde</that>
+		<template>
+			es naranja?
+		</template>
+	</category>	
+	
+	<!-- Naranja -->
+	<category>
+		<pattern>[si s]</pattern>
+		<that>es naranja</that>
+		<template>
+			<think>
+				<srai>seleccionar_color naranja</srai>
+			</think>
+			es pequeña?
+		</template>
+	</category>	
+	
+	<category>
+		<pattern>[no n]</pattern>
+		<that>es naranja</that>
+		<template>
+			es morada?
+		</template>
+	</category>	
+	
+	<!-- Morado -->
+	<category>
+		<pattern>[si s]</pattern>
+		<that>es morada</that>
+		<template>
+			<think>
+				<srai>seleccionar_color morado</srai>
+			</think>
+			es pequeña?
+		</template>
+	</category>	
+	
+	<category>
+		<pattern>[no n]</pattern>
+		<that>es morada</that>
+		<template>
+			es marron?
+		</template>
+	</category>	
+	
+	<!--Marron -->
+	<category>
+		<pattern>[si s]</pattern>
+		<that>es marron</that>
+		<template>
+			<think>
+				<srai>seleccionar_color marron</srai>
+			</think>
+			es pequeña?
+		</template>
+	</category>	
+	
+	<category>
+		<pattern>[no n]</pattern>
+		<that>es marron</that>
+		<template>
+			Creo que te has confundido, las frutas tienen colores!!!
+		</template>
+	</category>	
+	
+	<!-- ########## Preguntas tamanio ########## -->
+	<!-- Pequenia -->
+	<category>
+		<pattern>[si s]</pattern>
+		<that>es pequeña</that>
+		<template>
+			<think><set var="resp"><srai>seleccionar_tamanio pequeño</srai></set></think>
+			<condition var="resp">
+				<li value="NO">es acida?</li>
+				<li><get var="resp"/></li>
+			</condition>
+		</template>
+	</category>
+	
+	<category>
+		<pattern>[no n]</pattern>
+		<that>es pequeña</that>
+		<template>
+			es mediana?
+		</template>
+	</category>
+	
+	<!-- Mediana -->
+	<category>
+		<pattern>[si s]</pattern>
+		<that>es mediana</that>
+		<template>
+			<think><set var="resp"><srai>seleccionar_tamanio mediano</srai></set></think>
+			<condition var="resp">
+				<li value="NO">es acida?</li>
+				<li><get var="resp"/></li>
+			</condition>
+		</template>
+	</category>
+	
+	<category>
+		<pattern>[no n]</pattern>
+		<that>es mediana</that>
+		<template>
+			es grande?
+		</template>
+	</category>
+	
+	<!-- Grande -->
+	<category>
+		<pattern>[si s]</pattern>
+		<that>es grande</that>
+		<template>
+			<think><set var="resp"><srai>seleccionar_tamanio grande</srai></set></think>
+			<condition var="resp">
+				<li value="NO">es acida?</li>
+				<li><get var="resp"/></li>
+			</condition>
+		</template>
+	</category>
+	
+	<!-- ########## Preguntas sabor ########## -->
+	<!-- Acido -->
+	<category>
+		<pattern>[si s]</pattern>
+		<that>es acida</that>
+		<template>
+			<think><set var="resp"><srai>seleccionar_sabor acido</srai></set></think>
+			<condition var="resp">
+				<li value="NO">tiene vitamina A?</li>
+				<li><get var="resp"/></li>
+			</condition>
+		</template>
+	</category>
+	
+	<category>
+		<pattern>[no n]</pattern>
+		<that>es acida</that>
+		<template>
+			es semiacida?
+		</template>
+	</category>
+	
+	<!-- Semiacido -->
+	<category>
+		<pattern>[si s]</pattern>
+		<that>es semiacida</that>
+		<template>
+			<think><set var="resp"><srai>seleccionar_sabor semiacido</srai></set></think>
+			<condition var="resp">
+				<li value="NO">tiene vitamina A?</li>
+				<li><get var="resp"/></li>
+			</condition>
+		</template>
+	</category>
+	
+	<category>
+		<pattern>[no n]</pattern>
+		<that>es semiacida</that>
+		<template>
+			es dulce?
+		</template>
+	</category>
+	
+	<!-- Dulce -->
+	<category>
+		<pattern>[si s]</pattern>
+		<that>es dulce</that>
+		<template>
+			<think><set var="resp"><srai>seleccionar_sabor dulce</srai></set></think>
+			<condition var="resp">
+				<li value="NO">tiene vitamina A?</li>
+				<li><get var="resp"/></li>
+			</condition>
+		</template>
+	</category>
+	
+	<category>
+		<pattern>[no n]</pattern>
+		<that>es dulce</that>
+		<template>
+			es neutra?
+		</template>
+	</category>
+	
+	<!-- Neutro -->
+	<category>
+		<pattern>[si s]</pattern>
+		<that>es neutra</that>
+		<template>
+			<think><set var="resp"><srai>seleccionar_sabor neutro</srai></set></think>
+			<condition var="resp">
+				<li value="NO">tiene vitamina A?</li>
+				<li><get var="resp"/></li>
+			</condition>
+		</template>
+	</category>
+	
+	<!-- ########## Preguntas vitaminas ########## -->
+	
+	<!-- vitamina A -->
+	<category>
+		<pattern>[si s]</pattern>
+		<that>tiene vitamina A</that>
+		<template>
+			<think><set var="resp"><srai>seleccionar_vitA si</srai></set></think>
+			<condition var="resp">
+				<li value="NO">tiene vitamina B?</li>
+				<li><get var="resp"/></li>
+			</condition>
+		</template>
+	</category>
+	
+	<category>
+		<pattern>[no n]</pattern>
+		<that>tiene vitamina A</that>
+		<template>
+			<think><set var="resp"><srai>seleccionar_vitA no</srai></set></think>
+			<condition var="resp">
+				<li value="NO">tiene vitamina B?</li>
+				<li><get var="resp"/></li>
+			</condition>
+		</template>
+	</category>
+	
+	
+	<!-- vitamina B -->
+	<category>
+		<pattern>[si s]</pattern>
+		<that>tiene vitamina B</that>
+		<template>
+			<think><set var="resp"><srai>seleccionar_vitB si</srai></set></think>
+			<condition var="resp">
+				<li value="NO">tiene vitamina C?</li>
+				<li><get var="resp"/></li>
+			</condition>
+		</template>
+	</category>
+	
+	<category>
+		<pattern>[no n]</pattern>
+		<that>tiene vitamina B</that>
+		<template>
+			<think><set var="resp"><srai>seleccionar_vitB no</srai></set></think>
+			<condition var="resp">
+				<li value="NO">tiene vitamina C?</li>
+				<li><get var="resp"/></li>
+			</condition>
+		</template>
+	</category>
+	
+	<!-- vitamina C -->
+	<category>
+		<pattern>[si s]</pattern>
+		<that>tiene vitamina C</that>
+		<template>
+			<think><set var="resp"><srai>seleccionar_vitC si</srai></set></think>
+			<condition var="resp">
+				<li value="NO">No conozco la fruta</li>
+				<li><get var="resp"/></li>
+			</condition>
+		</template>
+	</category>
+	
+	<category>
+		<pattern>[no n]</pattern>
+		<that>tiene vitamina C</that>
+		<template>
+			<think><set var="resp"><srai>seleccionar_vitC no</srai></set></think>
+			<condition var="resp">
+				<li value="NO">No conozco la fruta</li>
+				<li><get var="resp"/></li>
+			</condition>
+		</template>
+	</category>
+	
+	<!-- Confirmacion del acierto -->
+	<category>
+		<pattern>has acertado ^</pattern>
+		<template>
+			Siiii he ganado de nuevo !!!
+		</template>
+	</category>
+	
+	<category>
+		<pattern>no ^ es [el la] ^</pattern>
+		<template>
+			<srai>antitrampa <star index="2" /></srai>
+		</template>
+	</category>
+</topic>
+</aiml>

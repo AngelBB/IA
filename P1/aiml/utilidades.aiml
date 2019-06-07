@@ -1,0 +1,1030 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml version="2.0">
+	<!-- File: utilidades.aiml -->
+	<!-- Author: Raul y Rocio -->
+	<!-- Last modified: February 17, 2018 -->
+
+	<!-- Conjunto de reglas para devolver la primera palabra de una frase -->
+	<!-- Si la frase no contiene palabras devuelve "$" -->
+	<category>
+		<pattern>TOP * *</pattern>
+		<template>
+			<star index="1"/>
+		</template>
+	</category>
+	<category>
+		<pattern>TOP *</pattern>
+		<template>
+			<star index="1"/>
+		</template>
+	</category>
+	<category>
+		<pattern>TOP</pattern>
+		<template>$</template>
+	</category>
+	<!-- Conjunto de reglas para devolver el resto de palabras de una frase execto la primera -->
+	<!-- Si la frase no contiene palabras devuelve "$" -->
+	<category>
+		<pattern>REMAIN * *</pattern>
+		<template>
+			<star index="2"/>
+		</template>
+	</category>
+	<category>
+		<pattern>REMAIN *</pattern>
+		<template>$</template>
+	</category>
+	<category>
+		<pattern>REMAIN</pattern>
+		<template>$</template>
+	</category>
+	<!-- Regla que devuelve el numero de palabras que se pasan como argumento en <star/> -->
+	<category>
+		<pattern>COUNT</pattern>
+		<template>0</template>
+	</category>
+	<category>
+		<pattern>COUNT *</pattern>
+		<template>
+			<think>
+				<set var="count">0</set>
+				<set var="list">
+					<star/>
+				</set>
+				<set var="item">
+					<srai>TOP <get var="list"/></srai>
+				</set>
+			</think>
+			<condition var="item">
+				<li>
+					<value>$</value>
+					<get var="count"/>
+				</li>
+				<li>
+					<think>
+						<set var="count">
+							<map>
+								<name>successor</name>
+								<get var="count"/>
+							</map>
+						</set>
+						<set var="list">
+							<srai>REMAIN <get var="list"/></srai>
+						</set>
+						<set var="item">
+							<srai>TOP <get var="list"/></srai>
+						</set>
+					</think>
+					<loop/>
+				</li>
+			</condition>
+		</template>
+	</category>
+	<!-- Regla que busca un elemento <star/> en <star index="2"/> si existe devuelve la posicion, sino devuelve 0 -->
+	<category>
+		<pattern>
+        FINDITEM * IN *
+    </pattern>
+		<template>
+			<think>
+				<set var="buscado">
+					<uppercase><star/></uppercase>
+				</set>
+				<set var="lista">
+					<star index="2"/>
+				</set>
+				<set var="item">
+					<uppercase><srai>TOP <get var="lista"/></srai></uppercase>
+				</set>
+				<set var="count">1</set>
+			</think>
+			<condition var="item">
+				<li value="$">0</li>
+				<li><value><get var="buscado"/></value><get var="count"/></li>
+				<li>
+					<think>
+						<set var="count">
+							<map>
+								<name>successor</name>
+								<get var="count"/>
+							</map>
+						</set>
+						<set var="lista">
+							<srai>REMAIN <get var="lista"/></srai>
+						</set>
+						<set var="item">
+							<uppercase><srai>TOP <get var="lista"/></srai></uppercase>
+						</set>
+					</think>
+					<loop/>
+				</li>
+			</condition>
+		</template>
+	</category>
+	<!-- Regla que selecciona la palabra de posicion number(<star/>) en <star index="2"> Si la posicion es mayor al numero de palabras devuelve "$" -->
+	<category>
+		<pattern>
+        SELECTITEM <set>number</set> IN *
+    </pattern>
+		<template>
+			<think>
+				<set var="count">
+					<star/>
+				</set>
+				<set var="list">
+					<star index="2"/>
+				</set>
+				<set var="item">
+					<srai>TOP <get var="list"/></srai>
+				</set>
+			</think>
+			<condition var="count">
+				<li value="0">$</li>
+				<li>
+					<value>1</value>
+					<get var="item"/>
+				</li>
+				<li>
+					<think>
+						<set var="count">
+							<map>
+								<name>predecessor</name>
+								<get var="count"/>
+							</map>
+						</set>
+						<think>
+							<set var="list">
+								<srai>REMAIN <get var="list"/></srai>
+							</set>
+						</think>
+						<think>
+							<set var="item">
+								<srai>TOP <get var="list"/></srai>
+							</set>
+						</think>
+					</think>
+					<loop/>
+				</li>
+			</condition>
+		</template>
+	</category>
+	
+	<!-- Regla que elimina la palabra de posicion number(<star/>) en <star index="2"> -->
+	<category>
+		<pattern>
+        REMOVEITEM <set>number</set> IN *
+    </pattern>
+		<template>
+			<think>
+				<set var="count"><star/></set>
+				<set var="list"><star index="2"/></set>
+				<set var="list_1"/>
+				<set var="item"><srai>TOP <get var="list"/></srai></set>
+				<set var="list"><srai>REMAIN <get var="list"/></srai></set>
+			</think>
+			<condition var="count">
+				<li value="1"><get var="list_1"/> <get var="list"/></li>
+				<li>
+					<think>
+						<set var="count">
+							<map>
+								<name>predecessor</name>
+								<get var="count"/>
+							</map>
+						</set>
+						<set var="list_1">
+							<get var="list_1"/>
+							<get var="item"/>
+						</set>
+						<set var="item">
+							<srai>TOP <get var="list"/></srai>
+						</set>
+						<set var="list">
+							<srai>REMAIN <get var="list"/></srai>
+						</set>
+						<condition var="list">
+							<li value="$">
+								<set var="list"/>
+							</li>
+						</condition>
+						<condition var="item">
+							<li value="$">
+								<set var="item"/>
+							</li>
+						</condition>
+					</think>
+					<loop/>
+				</li>
+			</condition>
+		</template>
+	</category>
+	
+	<!-- Regla que aniade una palabra al principio de una frase si la palabra no estaba ya en la frase -->
+	<category>
+		<pattern>
+        ADDITEM * IN *
+    </pattern>
+		<template>
+			<think>
+				<set var="set">
+					<star index="2"/>
+				</set>
+			</think>
+			<think>
+				<set var="pos">
+					<srai>FINDITEM <star/> IN <get var="set"/></srai>
+				</set>
+			</think>
+			<condition var="pos">
+				<li value="0">
+					<think>
+						<set var="where"><srai>COUNT <get var="set"/></srai></set>
+						<condition var="where">
+							<li value="0"><set var="set"><star/></set></li>
+							<li><set var="set"><star/> <get var="set"/></set></li>
+						</condition>
+					</think>
+				</li>
+			</condition>
+			<get var="set"/>
+		</template>
+	</category>
+	
+	<!-- Regla que genera un numero aleatorio en el rango de 1 a number -->
+	<category>
+		<pattern>
+        RANDOM <set>number</set>
+    </pattern>
+		<template>
+			<think>
+				<set var="count">
+					<star/>
+				</set>
+				<set var="elegido">1</set>
+			</think>
+			<condition var="count">
+				<li>
+					<value>1</value>
+					<get var="elegido"/>
+				</li>
+				<li>
+					<think>
+						<random>
+							<li>
+								<set var="count">
+									<map>
+										<name>predecessor</name>
+										<get var="count"/>
+									</map>
+								</set>
+								<set var="elegido">
+									<map>
+										<name>successor</name>
+										<get var="elegido"/>
+									</map>
+								</set>
+							</li>
+							<li>
+								<set var="count">
+									<map>
+										<name>predecessor</name>
+										<get var="count"/>
+									</map>
+								</set>
+							</li>
+							<li>
+								<set var="count">
+									<map>
+										<name>predecessor</name>
+										<get var="count"/>
+									</map>
+								</set>
+							</li>
+						</random>
+					</think>
+					<loop/>
+				</li>
+			</condition>
+		</template>
+	</category>
+	<!-- Regla que permite iterar sobre las distintas palabras de una frase (esta asociado con NEXT)-->
+	<category>
+		<pattern>ITERATE *</pattern>
+		<template>
+			<think>
+				<set name="iterator">
+					<star/>
+				</set>
+			</think>
+			<srai>NEXT</srai>
+		</template>
+	</category>
+	<!-- Regla que permite iterar sobre las distintas palabras de una frase (esta asociado con ITERATE)-->
+	<category>
+		<pattern>NEXT</pattern>
+		<template>
+			<condition name="iterator">
+				<li value="$">$</li>
+				<li>
+					<srai>TOP <get name="iterator"/></srai>
+					<think>
+						<set name="iterator">
+							<srai>REMAIN <get name="iterator"/></srai>
+						</set>
+					</think>
+				</li>
+			</condition>
+		</template>
+	</category>
+	<!-- Regla que permite comparar dos cadenas, si son iguales devuelve YES en otro caso devuelve NO-->
+	<category>
+		<pattern>
+        COMPARE * WITH *
+    	</pattern>
+		<template>
+			<think>
+				<set var="local">
+					<uppercase>
+						<star index="2"/>
+					</uppercase>
+				</set>
+			</think>
+			<condition var="local">
+				<li><value><uppercase><star/></uppercase></value>YES</li>
+				<li>NO</li>
+			</condition>
+		</template>
+	</category>
+	
+	<!-- Regla que cambia la palabra de posicion number(<star/>) por <star index="2"> -->
+	<category>
+	    <pattern>
+	        CHANGEITEM <set>number</set> BY * IN *
+	    </pattern>
+	    <template>
+	        <think>
+	            <set var="count"><star/></set>
+	            <set var="list"><star index="3"/></set>
+	            <set var="list_1"></set>
+	            <set var="item"><srai>TOP <get var="list"/></srai></set>
+	            <set var="list"><srai>REMAIN <get var="list"/></srai></set>
+	        </think>
+	        <condition var="count">
+	            <li><value>1</value> <get var="list_1"/> <star index="2"/> <get var="list"/></li>
+	            <li>
+	               <think>
+	                  <set var="count"><map><name>predecessor</name><get var="count"/></map></set>
+	                  <set var="list_1"><get var="list_1"/> <get var="item"/></set>
+	                  <set var="item"><srai>TOP <get var="list"/></srai></set>
+	                  <set var="list"><srai>REMAIN <get var="list"/></srai></set>
+	                  <condition var="list">
+	                      <li value="$"><set var="list"/></li>
+	                  </condition>
+	                  <condition var="item">
+	                      <li value="$"><set var="item"></set></li>
+	                  </condition>
+	                </think>
+	              <loop/>
+	            </li>
+	        </condition>
+	    </template>
+	</category>
+	
+	<!-- Regla que inserta un nuevo elemento en la posicion indicada -->
+	<category>
+	    <pattern>
+	        INSERTITEM * POS <set>number</set> IN *
+	    </pattern>
+	    <template>
+	        <think>
+	            <set var="count"><star index="2"/></set>
+	            <set var="list"><star index="3"/></set>
+	            <set var="list_1"></set>
+	            <set var="item"><srai>TOP <get var="list"/></srai></set>
+	            <set var="list"><srai>REMAIN <get var="list"/></srai></set>
+	        </think>
+	        <condition var="count">
+	            <li><value>1</value> <get var="list_1"/> <get var="item"/> <star index="1"/> <get var="list"/></li>
+	            <li>
+	               <think>
+	                  <set var="count"><map><name>predecessor</name><get var="count"/></map></set>
+	                  <set var="list_1"><get var="list_1"/> <get var="item"/></set>
+	                  <set var="item"><srai>TOP <get var="list"/></srai></set>
+	                  <set var="list"><srai>REMAIN <get var="list"/></srai></set>
+	                  <condition var="list">
+	                      <li value="$"><set var="list"/></li>
+	                  </condition>
+	                  <condition var="item">
+	                      <li value="$"><set var="item"></set></li>
+	                  </condition>
+	                </think>
+	              <loop/>
+	            </li>
+	        </condition>
+	    </template>
+	</category>
+	
+	<!-- Regla que separa una palabra letra a letra -->
+	<category>
+	<pattern> deletrea * </pattern>
+	<template> <explode> <star/> </explode> </template>
+	</category>
+
+	<!-- Regla que quita la primera palabra de una lista de palabras -->
+	<category>
+	<pattern> resto * </pattern>
+	<template> <rest> <star/> </rest> </template>
+	</category>
+
+	<!-- Regla que elimina los espacios de una lista de palabras -->
+	<category>
+	<pattern> quitarespacios * </pattern>
+	<template> 
+	  <think>
+		<set var="palabra"></set>
+		<set var="solucion"></set>
+		<set var="tmp"><star/></set>
+		<set var="tmp"> <explode><get var="tmp"/></explode> </set>
+		<set var="caracter"><first><get var="tmp"/></first></set>
+		<set var="tmp"><rest><get var="tmp"/></rest></set>
+		<condition var="caracter">
+			<li value="NIL">
+				<set var="solucion"><get var="solucion"/> <get var="palabra"/></set>
+			</li>
+			<li value="_"> 
+				<set var="solucion"><get var="solucion"/> <get var="palabra"/></set>
+				<set var="palabra"></set>
+				<set var="caracter"><first><get var="tmp"/></first></set>
+				<set var="tmp"><rest><get var="tmp"/></rest></set>
+				<loop/>
+			</li>
+			<li>
+				<set var="palabra"><get var="palabra"/><get var="caracter"/></set>
+				<set var="caracter"><first><get var="tmp"/></first></set>
+				<set var="tmp"><rest><get var="tmp"/></rest></set>
+				<loop/>
+			</li>
+		</condition>
+	  </think>
+	<get var="solucion"/>
+	</template>
+	</category>
+
+	<!-- Regla que concatena una lista de palabras mediante un "_" -->
+	<category>
+	<pattern> ponerbarrabaja * </pattern>
+	<template> 
+	  <think>
+		<set var="tmp"><star/></set>
+		<set var="solucion"><first><get var="tmp"/></first></set>
+		<set var="tmp"><rest><get var="tmp"/></rest></set>
+		<condition var="tmp">
+			<li value="NIL">
+			</li>
+			<li>
+				<set var="solucion"><get var="solucion"/>_<first><get var="tmp"/></first></set>
+				<set var="tmp"><rest><get var="tmp"/></rest></set>
+				<loop/>
+			</li>
+		</condition>
+	  </think>
+	<get var="solucion"/>
+	</template>
+	</category>
+	
+	
+	
+	
+<!-- *************************************************************** -->
+<!-- ############### FUNCIONES PROPIAS ############### -->
+<!-- *************************************************************** -->
+		
+	<!-- Regla que elimina las comas -->
+	<category>
+	<pattern> quitarcomas * </pattern>
+	<template> 
+	  <think>
+		<set var="palabra"></set>
+		<set var="solucion"></set>
+		<set var="tmp"><star/></set>
+		<set var="tmp"> <explode><get var="tmp"/></explode> </set>
+		<set var="caracter"><first><get var="tmp"/></first></set>
+		<set var="tmp"><rest><get var="tmp"/></rest></set>
+		<condition var="caracter">
+			<li value="NIL">
+				<set var="solucion"><get var="solucion"/> <get var="palabra"/></set>
+			</li>
+			<li value=","> 
+				<set var="solucion"><get var="solucion"/> <get var="palabra"/></set>
+				<set var="palabra"></set>
+				<set var="caracter"><first><get var="tmp"/></first></set>
+				<set var="tmp"><rest><get var="tmp"/></rest></set>
+				<loop/>
+			</li>
+			<li>
+				<set var="palabra"><get var="palabra"/><get var="caracter"/></set>
+				<set var="caracter"><first><get var="tmp"/></first></set>
+				<set var="tmp"><rest><get var="tmp"/></rest></set>
+				<loop/>
+			</li>
+		</condition>
+	  </think>
+	<get var="solucion"/>
+	</template>
+	</category>
+	
+	<!-- ##########  Resolver la fruta NIVEL 3 ########## -->
+	<!-- 1. Descartar por color -->
+	<category>
+		<pattern>seleccionar_color *</pattern>
+		<template>
+			<think>
+				<!--Creamos cadena comparadora con los valores obtenidos del usuario-->
+				<set var="parametro"><star index="1"/></set>
+				
+				<!-- Cargamos las claves del mapa, las escogemos por ejemplo del map "color" -->
+				<set var="fruta"><readkeys>color</readkeys></set>
+				<set var="fruta"><get var="fruta"/> null</set>
+				<set var="contador">1</set>
+				<set var="clave"><srai>ITERATE <get var="fruta"/></srai></set>
+				
+				<!-- Variable en donde guardamos las frutas probables [GLOBAL] -->
+				<!-- <set name="frutas_probables"></set> -->
+				<set var="frutas_probables_aux"></set>
+				<set name="frutas_probables"></set>
+				
+				
+				<!-- Bucle para iterar sobre las claves obtenidas del map -->
+				<condition var="contador">
+					<li><value><srai>COUNT <get var="fruta"/></srai></value></li>
+					<li>
+						<set var="contador">
+							<map name="successor"><get var="contador"/></map>
+						</set>
+
+						<!-- Valores de las frutas -->
+						<set var="color"><map name="color"><get var="clave"/></map></set> 
+						
+						<!-- Miramos que el color del usuario este incluido en el obtenido desde el mapa -->
+						<set var="colores"><srai>quitarcomas <get var="color"/></srai></set>
+						<set var="color_usuario"><srai>SELECTITEM 1 IN <get var="parametro"/></srai></set>
+						<set var="encontrado"><srai>FINDITEM <get var="color_usuario"/> IN <get var="colores"/></srai></set>
+						<set var="color_especifico"><srai>SELECTITEM <get var="encontrado"/> IN <get var="colores"/></srai></set>
+						<condition var="encontrado">
+							<li value="0"></li>
+							<li>
+								<set var="frutas_probables_aux"><get var="frutas_probables_aux"/> <get var="clave"/></set>
+							</li>
+						</condition>
+						
+						<!-- iterador -->
+						<set var="clave"><srai>NEXT</srai></set>
+						<loop/>
+						<set name="frutas_probables"><get var="frutas_probables_aux"/></set>
+					</li>
+				</condition>
+			</think>
+			<srai>respuesta_n3 <get name="frutas_probables"/></srai>
+		</template>
+	</category>
+
+	<!-- 2. Descartar por tamanio -->
+	<category>
+		<pattern>seleccionar_tamanio *</pattern>
+		<template>
+			<think>
+				<!--Creamos cadena comparadora con los valores obtenidos del usuario-->
+				<set var="parametro"><star index="1"/></set>
+				
+				<!-- Cargamos las claves del mapa, las escogemos por ejemplo del map "color" -->
+				<set var="contador">1</set>
+				<set var="clave"><srai>ITERATE <get name="frutas_probables"/></srai></set>
+				
+				<!-- Variable en donde guardamos las frutas probables [GLOBAL] -->
+				<!-- DECLARADO EN LA FUNCION: seleccionar_color -->
+				<!-- Creamos un auxiliar -->
+				<set var="aux_frutas_probables"></set>
+				<set var="aux"><get name="frutas_probables"/> null</set>
+				
+				<!-- Bucle para iterar sobre las claves obtenidas del map -->
+				<condition var="contador">
+					<li><value><srai>COUNT <get var="aux"/></srai></value></li>
+					<li>
+						<set var="contador">
+							<map name="successor"><get var="contador"/></map>
+						</set>
+						
+						<!-- Valores de las frutas -->
+						<set var="tamanio"><map name="tamanio"><get var="clave"/></map></set> 
+						<set var="cmp"><srai>COMPARE <get var="tamanio"/> WITH <get var="parametro"/></srai></set>
+						
+						<condition var="cmp">
+							<li value="YES">
+								<set var="aux_frutas_probables"><get var="aux_frutas_probables"/> <get var="clave"/></set>
+							</li>
+						</condition>
+						
+						<!-- iterador -->
+						<set var="clave"><srai>NEXT</srai></set>
+					<loop/>
+					<!-- Actualizamos la variable global frutas probables -->
+					<set name="frutas_probables"><get var="aux_frutas_probables"/></set>
+					</li>
+				</condition>
+			</think>
+			<srai>respuesta_n3 <get name="frutas_probables"/></srai>
+		</template>
+	</category>
+
+	<!-- 3. Descartar por sabor -->
+	<category>
+		<pattern>seleccionar_sabor *</pattern>
+		<template>
+			<think>
+				<!--Creamos cadena comparadora con los valores obtenidos del usuario-->
+				<set var="parametro"><star index="1"/></set>
+				
+				<!-- Cargamos las claves del mapa, las escogemos por ejemplo del map "color" -->
+				<set var="contador">1</set>
+				<set var="clave"><srai>ITERATE <get name="frutas_probables"/></srai></set>
+				
+				<!-- Variable en donde guardamos las frutas probables [GLOBAL] -->
+				<!-- DECLARADO EN LA FUNCION: seleccionar_color -->
+				<!-- Creamos un auxiliar -->
+				<set var="aux_frutas_probables"></set>
+				<set var="aux"><get name="frutas_probables"/> null</set>
+				
+				<!-- Bucle para iterar sobre las claves obtenidas del map -->
+				<condition var="contador">
+					<li><value><srai>COUNT <get var="aux"/></srai></value></li>
+					<li>
+						<set var="contador">
+							<map name="successor"><get var="contador"/></map>
+						</set>
+						
+						<!-- Valores de las frutas -->
+						<set var="sabor"><map name="sabor"><get var="clave"/></map></set> 
+						<set var="cmp"><srai>COMPARE <get var="sabor"/> WITH <get var="parametro"/></srai></set>
+						
+						<condition var="cmp">
+							<li value="YES">
+								<set var="aux_frutas_probables"><get var="aux_frutas_probables"/> <get var="clave"/></set>
+							</li>
+						</condition>
+						
+						<!-- iterador -->
+						<set var="clave"><srai>NEXT</srai></set>
+					<loop/>
+					<!-- Actualizamos la variable global frutas probables -->
+					<set name="frutas_probables"><get var="aux_frutas_probables"/></set>
+					</li>
+				</condition>
+			</think>
+			<srai>respuesta_n3 <get name="frutas_probables"/></srai>
+		</template>
+	</category>
+	
+	<!-- 4. Descartar por vitA -->
+	<category>
+		<pattern>seleccionar_vitA *</pattern>
+		<template>
+			<think>
+				<!--Creamos cadena comparadora con los valores obtenidos del usuario-->
+				<set var="parametro"><star index="1"/></set>
+				
+				<!-- Cargamos las claves del mapa, las escogemos por ejemplo del map "color" -->
+				<set var="contador">1</set>
+				<set var="clave"><srai>ITERATE <get name="frutas_probables"/></srai></set>
+				
+				<!-- Variable en donde guardamos las frutas probables [GLOBAL] -->
+				<!-- DECLARADO EN LA FUNCION: seleccionar_color -->
+				<!-- Creamos un auxiliar -->
+				<set var="aux_frutas_probables"></set>
+				<set var="aux"><get name="frutas_probables"/> null</set>
+				
+				<!-- Bucle para iterar sobre las claves obtenidas del map -->
+				<condition var="contador">
+					<li><value><srai>COUNT <get var="aux"/></srai></value></li>
+					<li>
+						<set var="contador">
+							<map name="successor"><get var="contador"/></map>
+						</set>
+						
+						<!-- Valores de las frutas -->
+						<set var="vitA"><map name="vitamina_A"><get var="clave"/></map></set> 
+						<set var="cmp"><srai>COMPARE <get var="vitA"/> WITH <get var="parametro"/></srai></set>
+						
+						<condition var="cmp">
+							<li value="YES">
+								<set var="aux_frutas_probables"><get var="aux_frutas_probables"/> <get var="clave"/></set>
+							</li>
+						</condition>
+						
+						<!-- iterador -->
+						<set var="clave"><srai>NEXT</srai></set>
+					<loop/>
+					<!-- Actualizamos la variable global frutas probables -->
+					<set name="frutas_probables"><get var="aux_frutas_probables"/></set>
+					</li>
+				</condition>
+			</think>
+			<srai>respuesta_n3 <get name="frutas_probables"/></srai>
+		</template>
+	</category>
+	
+	<!-- 5. Descartar por vitB -->
+	<category>
+		<pattern>seleccionar_vitB *</pattern>
+		<template>
+			<think>
+				<!--Creamos cadena comparadora con los valores obtenidos del usuario-->
+				<set var="parametro"><star index="1"/></set>
+				
+				<!-- Cargamos las claves del mapa, las escogemos por ejemplo del map "color" -->
+				<set var="contador">1</set>
+				<set var="clave"><srai>ITERATE <get name="frutas_probables"/></srai></set>
+				
+				<!-- Variable en donde guardamos las frutas probables [GLOBAL] -->
+				<!-- DECLARADO EN LA FUNCION: seleccionar_color -->
+				<!-- Creamos un auxiliar -->
+				<set var="aux_frutas_probables"></set>
+				<set var="aux"><get name="frutas_probables"/> null</set>
+				
+				<!-- Bucle para iterar sobre las claves obtenidas del map -->
+				<condition var="contador">
+					<li><value><srai>COUNT <get var="aux"/></srai></value></li>
+					<li>
+						<set var="contador">
+							<map name="successor"><get var="contador"/></map>
+						</set>
+						
+						<!-- Valores de las frutas -->
+						<set var="vitB"><map name="vitamina_B"><get var="clave"/></map></set> 
+						<set var="cmp"><srai>COMPARE <get var="vitB"/> WITH <get var="parametro"/></srai></set>
+						
+						<condition var="cmp">
+							<li value="YES">
+								<set var="aux_frutas_probables"><get var="aux_frutas_probables"/> <get var="clave"/></set>
+							</li>
+						</condition>
+						
+						<!-- iterador -->
+						<set var="clave"><srai>NEXT</srai></set>
+					<loop/>
+					<!-- Actualizamos la variable global frutas probables -->
+					<set name="frutas_probables"><get var="aux_frutas_probables"/></set>
+					</li>
+				</condition>
+			</think>
+			<srai>respuesta_n3 <get name="frutas_probables"/></srai>
+		</template>
+	</category>
+	
+	<!-- 6. Descartar por vitC -->
+	<category>
+		<pattern>seleccionar_vitC *</pattern>
+		<template>
+			<think>
+				<!--Creamos cadena comparadora con los valores obtenidos del usuario-->
+				<set var="parametro"><star index="1"/></set>
+				
+				<!-- Cargamos las claves del mapa, las escogemos por ejemplo del map "color" -->
+				<set var="contador">1</set>
+				<set var="clave"><srai>ITERATE <get name="frutas_probables"/></srai></set>
+				
+				<!-- Variable en donde guardamos las frutas probables [GLOBAL] -->
+				<!-- DECLARADO EN LA FUNCION: seleccionar_color -->
+				<!-- Creamos un auxiliar -->
+				<set var="aux_frutas_probables"></set>
+				<set var="aux"><get name="frutas_probables"/> null</set>
+				
+				<!-- Bucle para iterar sobre las claves obtenidas del map -->
+				<condition var="contador">
+					<li><value><srai>COUNT <get var="aux"/></srai></value></li>
+					<li>
+						<set var="contador">
+							<map name="successor"><get var="contador"/></map>
+						</set>
+
+						<!-- Valores de las frutas -->
+						<set var="vitC"><map name="vitamina_C"><get var="clave"/></map></set> 
+						<set var="cmp"><srai>COMPARE <get var="vitC"/> WITH <get var="parametro"/></srai></set>
+						
+						<condition var="cmp">
+							<li value="YES">
+								<set var="aux_frutas_probables"><get var="aux_frutas_probables"/> <get var="clave"/></set>
+							</li>
+						</condition>
+						
+						<!-- iterador -->
+						<set var="clave"><srai>NEXT</srai></set>
+						
+					<loop/>
+					<!-- Actualizamos la variable global frutas probables -->
+					<set name="frutas_probables"><get var="aux_frutas_probables"/></set>
+					</li>
+				</condition>
+			</think>
+			<srai>respuesta_n3 <get name="frutas_probables"/></srai>
+		</template>
+	</category>
+	
+	<!-- Resolver -->
+	<category>
+		<pattern>respuesta_n3 *</pattern>
+		<template>
+			<think>
+				<set var="aux"><star/></set>
+				<condition var="aux">
+					<li value="PERA PLATANO">
+						<set var="salida">La fruta puede ser PERA O PLATANO</set>
+					</li>
+					<li value="PLATANO PERA">
+						<set var="salida">La fruta puede ser PERA O PLATANO</set>
+					</li>
+					<li>
+						<set var="total"><srai>COUNT <star/></srai></set>
+						<condition var="total">
+							<li value="1">
+								<set var="salida">La fruta es: <star/></set>
+							</li>
+							<li><set var="salida">NO</set></li>
+						</condition>
+					</li>
+				</condition>
+			</think>
+			<get var="salida"/>			
+		</template>
+	</category>
+	
+	<!-- Resolver -->
+	<category>
+		<pattern>respuesta_n3</pattern>
+		<template>
+			No conozco la fruta	
+		</template>
+	</category>
+	
+	<!-- Antitrampa -->
+	<category>
+		<pattern>antitrampa *</pattern>
+		<template>
+			<think>
+				
+				<!-- Parametro -->
+				<set var="color_param"><map name="color"><star/></map></set>
+				<set var="tama_param"><map name="tamanio"><star/></map></set>
+				<set var="sabor_param"><map name="sabor"><star/></map></set>
+				<set var="vita_param"><map name="vitamina_A"><star/></map></set> 
+				<set var="vitb_param"><map name="vitamina_B"><star/></map></set>
+				<set var="vitc_param"><map name="vitamina_C"><star/></map></set>
+				
+				<!-- Fruta adivinada -->
+				<set var="color"><map name="color"><get name="frutas_probables"/></map></set>
+				<set var="tama"><map name="tamanio"><get name="frutas_probables"/></map></set>
+				<set var="sabor"><map name="sabor"><get name="frutas_probables"/></map></set>
+				<set var="vita"><map name="vitamina_A"><get name="frutas_probables"/></map></set>
+				<set var="vitb"><map name="vitamina_B"><get name="frutas_probables"/></map></set>
+				<set var="vitc"><map name="vitamina_C"><get name="frutas_probables"/></map></set>
+
+				<!-- 1. Comparamos el color -->
+				<!-- Bucle para iterar sobre colores -->
+				<set var="colores1"><srai>quitarcomas <get var="color"/></srai></set>
+				<set var="colores2"><srai>quitarcomas <get var="color_param"/></srai></set>
+				
+				<set var="contador">1</set>
+				<set var="valor"><srai>ITERATE <get var="colores2"/></srai></set>
+				<set var="aux"><get var="colores2"/> null</set>
+				<set var="found">NO</set>
+			
+				
+				<condition var="contador">
+					<li><value><srai>COUNT <get var="aux"/></srai></value></li>
+					<li>
+						<set var="contador">
+							<map name="successor"><get var="contador"/></map>
+						</set>
+						
+						<!-- Valores de las frutas -->
+						<set var="cmp"><srai>FINDITEM <get var="valor"/> IN <get var="colores1"/></srai></set>
+						<condition var="cmp">
+							<li value="0"></li>
+							<li><set var="found">YES</set></li>
+						</condition>
+						
+						<!-- iterador -->
+						<set var="valor"><srai>NEXT</srai></set>
+					<loop/>
+					</li>
+				</condition>	
+			
+				<condition var="found">
+					<li value="YES"><!-- Si el color ha coincidido saltamos a otra pregunta -->
+						<!-- 2.Comprobamos el tamanio-->
+						<set var="cmp"><srai>COMPARE <get var="tama_param"/> WITH <get var="tama"/></srai></set>
+						<condition var="cmp">
+							<li value="YES"> 
+								<!-- 3.Comprobamos el sabor-->
+								<set var="cmp"><srai>COMPARE <get var="sabor_param"/> WITH <get var="sabor"/></srai></set>
+								<condition var="cmp">
+									<li value="YES"> 
+										<!-- 4.Comprobamos la vitA-->
+										<set var="cmp"><srai>COMPARE <get var="vita_param"/> WITH <get var="vita"/></srai></set>
+										<condition var="cmp">
+											<li value="YES"> 
+												<!-- 5.Comprobamos la vitB-->
+												<set var="cmp"><srai>COMPARE <get var="vitb_param"/> WITH <get var="vitb"/></srai></set>
+												<condition var="cmp">
+													<li value="YES"> 
+														<!-- 6.Comprobamos la vitC-->
+														<set var="cmp"><srai>COMPARE <get var="vitc_param"/> WITH <get var="vitc"/></srai></set>
+														<condition var="cmp">
+															<li value="YES"> 
+																<set var="respuesta">Que carajo has hecho?! me has hackeadooooo !!!!!!!!!!</set>
+															</li>
+															<li value="NO">
+																<set var="respuesta">
+																	Eres un tamposo, <srai>articulo <star/></srai> <get var="vitc_param"/> tiene vitmamina c y <srai>articulo <get name="frutas_probables"/></srai> <get var="vitc"/> vitamina c
+																</set>
+															</li>
+														</condition>
+													</li>
+													<li value="NO">
+														<set var="respuesta">
+															Eres un tamposo, <srai>articulo <star/></srai> <get var="vitb_param"/> tiene vitmamina b y <srai>articulo <get name="frutas_probables"/></srai> <get var="vitb"/> vitamina b
+														</set>
+													</li>
+												</condition>
+											</li>
+											<li value="NO">
+												<set var="respuesta">
+													Eres un tamposo, <srai>articulo <star/></srai> <get var="vita_param"/> tiene vitmamina a y <srai>articulo <get name="frutas_probables"/></srai> <get var="vita"/> vitamina a
+												</set>
+											</li>
+										</condition>
+									</li>
+									<li value="NO">
+										<set var="respuesta">
+											Eres un tamposo, <srai>articulo <star/></srai> es de sabor <get var="sabor_param"/> y <srai>articulo <get name="frutas_probables"/></srai> es de sabor <get var="sabor"/>
+										</set>
+									</li>
+								</condition>
+							</li>
+							<li value="NO">
+								<set var="respuesta">
+									Eres un tamposo, <srai>articulo <star/></srai> es de tamaño <get var="tama_param"/> y <srai>articulo <get name="frutas_probables"/></srai> es de tamaño <get var="tama"/>
+								</set>
+							</li>
+						</condition>
+					</li>
+					<li value="NO">
+						<set var="respuesta">
+							Eres un tamposo, <srai>articulo <star/></srai> es de color <get var="color_param"/> y <srai>articulo <get name="frutas_probables"/></srai> es de color <get var="color"/>
+						</set>
+					</li>
+				</condition>
+			</think>
+			<get var="respuesta"/>
+		</template>
+	</category>
+	
+	
+	<category>
+		<pattern>articulo *</pattern>
+		<template>
+			<think>
+				<set var="fruta"><star/></set>
+			</think>
+			<condition var="fruta">
+				<li value="fresa">la fresa</li>
+				<li value="manzana">la manzana</li>
+				<li value="naranja">la naranja</li>
+				<li value="kiwi">el kiwi</li>
+				<li value="mandarina">la mandarina</li>
+				<li value="piña">la piña</li>
+				<li value="mango">el mango</li>
+				<li value="melocoton">el melocoton</li>
+				<li value="higo">el higo</li>
+				<li value="ciruela">la ciruela</li>
+				<li value="pera">la pera</li>
+				<li value="platano">el platano</li>
+				<li value="coco">el coco</li>
+				<li value="aguacate">el aguacate</li>
+				<li value="nuez">la nuez</li>
+				<li value="cereza">la cereza</li>			
+			</condition>
+		</template>
+	</category>
+	
+	<!-- Descartar fruta -->
+	<category>
+		<pattern>descartar_fruta *</pattern>
+		<template>
+			<think>
+				<set var="pos"><srai>FINDITEM <star/> IN <get name="frutas_probables"/></srai></set>
+				<set name="frutas_probables"><srai>REMOVEITEM <get var="pos"/> IN <get name="frutas_probables"/></srai></set>
+			</think>
+		</template>
+	</category>
+	
+</aiml>

@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml version="2.0">
+
+<!-- Pregunta inicial -->
+<category>
+ <pattern>^ nivel 1 ^</pattern>
+ <template>
+	 <think>
+		<random>
+			<li><set name="fruta">fresa</set></li>
+			<li><set name="fruta">manzana</set></li>
+			<li><set name="fruta">naranja</set></li>
+			<li><set name="fruta">kiwi</set></li>
+			<li><set name="fruta">mandarina</set></li>
+			<li><set name="fruta">piña</set></li>
+			<li><set name="fruta">mango</set></li>
+			<li><set name="fruta">melocoton</set></li>
+			<li><set name="fruta">higo</set></li>
+			<li><set name="fruta">ciruela</set></li>
+			<li><set name="fruta">pera</set></li>
+			<li><set name="fruta">platano</set></li>
+			<li><set name="fruta">coco</set></li>
+			<li><set name="fruta">aguacate</set></li>
+			<li><set name="fruta">nuez</set></li>
+			<li><set name="fruta">cereza</set></li>			
+		</random>
+	</think>
+	<set name="topic">nivel 1</set> activado!
+	Ya tengo la fruta! Comenzamos .....
+ </template>
+</category>
+
+
+
+<topic name="nivel 1">
+	<!-- ########## Preguntas color ########## -->
+	<category>
+		<pattern>^ roj+ ^</pattern>
+		<template>
+			<think>
+				<set var="aux1"><map name="color"><get name="fruta"/></map></set>
+				<set var="aux2"><srai>quitarcomas <get var="aux1"/></srai></set>
+				<set var="pos"><srai>finditem rojo in <get var="aux2"/></srai></set>
+			</think>
+			<condition var="pos">
+				<li value="0">No es roja</li>
+				<li>Si es roja</li>
+			</condition>
+		</template>
+	</category>
+
+	<category>
+		<pattern>^ amarill+ ^</pattern>
+		<template>
+			<think>
+				<set var="aux1"><map name="color"><get name="fruta"/></map></set>
+				<set var="aux2"><srai>quitarcomas <get var="aux1"/></srai></set>
+				<set var="pos"><srai>finditem amarillo in <get var="aux2"/></srai></set>
+			</think>
+			
+			<condition var="pos">
+				<li value="0">No es amarilla</li>
+				<li>Si es amarilla</li>
+			</condition>
+		</template>
+	</category>
+
+	<category>
+		<pattern>^ verde ^</pattern>
+		<template>
+			<think>
+				<set var="aux1"><map name="color"><get name="fruta"/></map></set>
+				<set var="aux2"><srai>quitarcomas <get var="aux1"/></srai></set>
+				<set var="pos"><srai>finditem verde in <get var="aux2"/></srai></set>
+			</think>
+			
+			<condition var="pos">
+				<li value="0">No es verde</li>
+				<li>Si es verde</li>
+			</condition>
+		</template>
+	</category>
+
+	<category>
+		<pattern>^ naranja ^</pattern>
+		<template>
+			<think>
+				<set var="aux1"><map name="color"><get name="fruta"/></map></set>
+				<set var="aux2"><srai>quitarcomas <get var="aux1"/></srai></set>
+				<set var="pos"><srai>finditem naranja in <get var="aux2"/></srai></set>
+			</think>
+			
+			<condition var="pos">
+				<li value="0">No es naranja</li>
+				<li>Si es naranja</li>
+			</condition>
+		</template>
+	</category>
+
+	<category>
+		<pattern>^ morad+ ^</pattern>
+		<template>
+			<think>
+				<set var="aux1"><map name="color"><get name="fruta"/></map></set>
+				<set var="aux2"><srai>quitarcomas <get var="aux1"/></srai></set>
+				<set var="pos"><srai>finditem morado in <get var="aux2"/></srai></set>
+			</think>
+			
+			<condition var="pos">
+				<li value="0">No es morada</li>
+				<li>Si es morada</li>
+			</condition>
+		</template>
+	</category>
+
+	<category>
+		<pattern>^ marron ^</pattern>
+		<template>
+			<think>
+				<set var="aux1"><map name="color"><get name="fruta"/></map></set>
+				<set var="aux2"><srai>quitarcomas <get var="aux1"/></srai></set>
+				<set var="pos"><srai>finditem marron in <get var="aux2"/></srai></set>
+			</think>
+			
+			<condition var="pos">
+				<li value="0">No es marron</li>
+				<li>Si es marron</li>
+			</condition>
+		</template>
+	</category>
+
+
+	<!-- ########## Preguntas tamanio ########## -->
+	<category>
+		<pattern>^ pequeñ+ ^</pattern>
+		<template>
+			<think>
+				<set var="aux"><map name="tamanio"><get name="fruta"/></map></set>
+			</think>
+			
+			<condition var="aux">
+				<li value="pequeño">Si es pequeña</li>
+				<li>No es pequeña</li>
+			</condition>
+		</template>
+	</category>
+
+	<category>
+		<pattern>^ median+ ^</pattern>
+		<template>
+			<think>
+				<set var="aux"><map name="tamanio"><get name="fruta"/></map></set>
+			</think>
+			
+			<condition var="aux">
+				<li value="mediano">Si es mediana</li>
+				<li>No es mediana</li>
+			</condition>
+		</template>
+	</category>
+
+	<category>
+		<pattern>^ grande ^</pattern>
+		<template>
+			<think>
+				<set var="aux"><map name="tamanio"><get name="fruta"/></map></set>
+			</think>
+			
+			<condition var="aux">
+				<li value="grande">Si es grande</li>
+				<li>No es grande</li>
+			</condition>
+		</template>
+	</category>
+
+	<!-- ########## Preguntas sabor ########## -->
+	<category>
+		<pattern>^ acid+ ^</pattern>
+		<template>
+			<think>
+				<set var="aux"><map name="sabor"><get name="fruta"/></map></set>
+			</think>
+			
+			<condition var="aux">
+				<li value="acido">Si es acida</li>
+				<li>No es acida</li>
+			</condition>
+		</template>
+	</category>
+
+	<category>
+		<pattern>^ semiacid+ ^</pattern>
+		<template>
+			<think>
+				<set var="aux"><map name="sabor"><get name="fruta"/></map></set>
+			</think>
+			
+			<condition var="aux">
+				<li value="semiacido">Si es semiacida</li>
+				<li>No es semiacida</li>
+			</condition>
+		</template>
+	</category>
+
+	<category>
+		<pattern>^ dulce ^</pattern>
+		<template>
+			<think>
+				<set var="aux"><map name="sabor"><get name="fruta"/></map></set>
+			</think>
+			
+			<condition var="aux">
+				<li value="dulce">Si es dulce</li>
+				<li>No es dulce</li>
+			</condition>
+		</template>
+	</category>
+
+	<category>
+		<pattern>^ neutr+ ^</pattern>
+		<template>
+			<think>
+				<set var="aux"><map name="sabor"><get name="fruta"/></map></set>
+			</think>
+			
+			<condition var="aux">
+				<li value="neutro">Si es neutra</li>
+				<li>No es neutra</li>
+			</condition>
+		</template>
+	</category>
+
+	<!-- ########## Preguntas vitaminas ########## -->
+	<category>
+		<pattern>^ vit+ [A a] ^</pattern>
+		<template>
+			<think>
+				<set var="aux"><map name="vitamina_A"><get name="fruta"/></map></set>
+			</think>
+			
+			<condition var="aux">
+				<li value="si">Si tiene vitamina A</li>
+				<li>No tiene vitamina A</li>
+			</condition>
+		</template>
+	</category>
+
+	<category>
+		<pattern>^ vit+ [B b] ^</pattern>
+		<template>
+			<think>
+				<set var="aux"><map name="vitamina_B"><get name="fruta"/></map></set>
+			</think>
+			
+			<condition var="aux">
+				<li value="si">Si tiene vitamina B</li>
+				<li>No tiene vitamina B</li>
+			</condition>
+		</template>
+	</category>
+
+	<category>
+		<pattern>^ vit+ [C c] ^</pattern>
+		<template>
+			<think>
+				<set var="aux"><map name="vitamina_C"><get name="fruta"/></map></set>
+			</think>
+			
+			<condition var="aux">
+				<li value="si">Si tiene vitamina C</li>
+				<li>No tiene vitamina C</li>
+			</condition>
+		</template>
+	</category>
+
+
+<!-- Preguntas de ayuda  -->
+
+<!-- Color -->
+<category>
+	<pattern>[el la] * es roj+</pattern>
+	<template>
+		<think>
+			<set var="aux1"><map name="color"><star/></map></set>
+			<set var="aux2"><srai>quitarcomas <get var="aux1"/></srai></set>
+			<set var="pos"><srai>finditem rojo in <get var="aux2"/></srai></set>
+		</think>
+		<condition var="pos">
+			<li value="0">No es roja</li>
+			<li>Si es roja</li>
+		</condition>
+	</template>
+</category>
+
+<category>
+	<pattern>[el la] * es amarill+</pattern>
+	<template>
+		<think>
+			<set var="aux1"><map name="color"><star/></map></set>
+			<set var="aux2"><srai>quitarcomas <get var="aux1"/></srai></set>
+			<set var="pos"><srai>finditem amarillo in <get var="aux2"/></srai></set>
+		</think>
+		<condition var="pos">
+			<li value="0">No es amarillo/a</li>
+			<li>Si es amarillo/a</li>
+		</condition>
+	</template>
+</category>
+
+<category>
+	<pattern>[el la] * es verde</pattern>
+	<template>
+		<think>
+			<set var="aux1"><map name="color"><star/></map></set>
+			<set var="aux2"><srai>quitarcomas <get var="aux1"/></srai></set>
+			<set var="pos"><srai>finditem verde in <get var="aux2"/></srai></set>
+		</think>
+		<condition var="pos">
+			<li value="0">No es verde</li>
+			<li>Si es verde</li>
+		</condition>
+	</template>
+</category>
+
+<category>
+	<pattern>[el la] * es naranja</pattern>
+	<template>
+		<think>
+			<set var="aux1"><map name="color"><star/></map></set>
+			<set var="aux2"><srai>quitarcomas <get var="aux1"/></srai></set>
+			<set var="pos"><srai>finditem naranja in <get var="aux2"/></srai></set>
+		</think>
+		<condition var="pos">
+			<li value="0">No es naranja</li>
+			<li>Si es naranja</li>
+		</condition>
+	</template>
+</category>
+
+<category>
+	<pattern>[el la] * es morad+</pattern>
+	<template>
+		<think>
+			<set var="aux1"><map name="color"><star/></map></set>
+			<set var="aux2"><srai>quitarcomas <get var="aux1"/></srai></set>
+			<set var="pos"><srai>finditem morado in <get var="aux2"/></srai></set>
+		</think>
+		<condition var="pos">
+			<li value="0">No es morado/a</li>
+			<li>Si es morado/a</li>
+		</condition>
+	</template>
+</category>
+
+<category>
+	<pattern>[el la] * es marron</pattern>
+	<template>
+		<think>
+			<set var="aux1"><map name="color"><star/></map></set>
+			<set var="aux2"><srai>quitarcomas <get var="aux1"/></srai></set>
+			<set var="pos"><srai>finditem marron in <get var="aux2"/></srai></set>
+		</think>
+		<condition var="pos">
+			<li value="0">No es marron</li>
+			<li>Si es marron</li>
+		</condition>
+	</template>
+</category>
+
+<!-- Tamanio -->
+<category>
+	<pattern>[el la] * es pequeñ+</pattern>
+	<template>
+		<think>
+			<set var="aux"><map name="tamanio"><star/></map></set>
+		</think>
+		
+		<condition var="aux">
+			<li value="pequeño">Si es pequeño/a</li>
+			<li>No es pequeño/a</li>
+		</condition>
+	</template>
+</category>
+
+<category>
+	<pattern>[el la] * es median+</pattern>
+	<template>
+		<think>
+			<set var="aux"><map name="tamanio"><star/></map></set>
+		</think>
+		
+		<condition var="aux">
+			<li value="mediano">Si es mediano/a</li>
+			<li>No es mediano/a</li>
+		</condition>
+	</template>
+</category>
+
+<category>
+	<pattern>[el la] * es grande+</pattern>
+	<template>
+		<think>
+			<set var="aux"><map name="tamanio"><star/></map></set>
+		</think>
+		
+		<condition var="aux">
+			<li value="grande">Si es grande</li>
+			<li>No es grande</li>
+		</condition>
+	</template>
+</category>
+
+
+<!-- Sabor -->
+<category>
+	<pattern>[el la] * es dulce</pattern>
+	<template>
+		<think>
+			<set var="aux"><map name="sabor"><star/></map></set>
+		</think>
+		
+		<condition var="aux">
+			<li value="dulce">Si es dulce</li>
+			<li>No es dulce</li>
+		</condition>
+	</template>
+</category>
+
+<category>
+	<pattern>[el la] * es semiacid+</pattern>
+	<template>
+		<think>
+			<set var="aux"><map name="sabor"><star/></map></set>
+		</think>
+		
+		<condition var="aux">
+			<li value="semiacido">Si es semiacido/a</li>
+			<li>No es semiacido/a</li>
+		</condition>
+	</template>
+</category>
+
+<category>
+	<pattern>[el la] * es acid+</pattern>
+	<template>
+		<think>
+			<set var="aux"><map name="sabor"><star/></map></set>
+		</think>
+		
+		<condition var="aux">
+			<li value="acido">Si es acido/a</li>
+			<li>No es acido/a</li>
+		</condition>
+	</template>
+</category>
+
+
+<!-- Vitaminas -->
+<category>
+	<pattern>[el la] * tiene vitamina [A a]</pattern>
+	<template>
+		<think>
+			<set var="aux"><map name="vitamina_A"><star/></map></set>
+		</think>
+		
+		<condition var="aux">
+			<li value="si">Si tiene vitamina A</li>
+			<li>No tiene vitamina A</li>
+		</condition>
+	</template>
+</category>
+
+<category>
+	<pattern>[el la] * tiene vitamina [B b]</pattern>
+	<template>
+		<think>
+			<set var="aux"><map name="vitamina_A"><star/></map></set>
+		</think>
+		
+		<condition var="aux">
+			<li value="si">Si tiene vitamina B</li>
+			<li>No tiene vitamina B</li>
+		</condition>
+	</template>
+</category>
+
+<category>
+	<pattern>[el la] * tiene vitamina [C c]</pattern>
+	<template>
+		<think>
+			<set var="aux"><map name="vitamina_A"><star/></map></set>
+		</think>
+		
+		<condition var="aux">
+			<li value="si">Si tiene vitamina C</li>
+			<li>No tiene vitamina C</li>
+		</condition>
+	</template>
+</category>
+
+
+	<!-- Fin de juego -->
+	<category>
+		<pattern>^ es [el la] *</pattern>
+		<template>
+			<think>
+				<set var="aux"><srai>compare <star index="2"/> with <get name="fruta"/></srai></set>
+			</think>
+			
+			<condition var="aux">
+				<li value="YES">Acertaste !!!</li>
+				<li>Has fallado !!!</li>
+			</condition>
+		</template>
+	</category>
+</topic>
+
+</aiml>
