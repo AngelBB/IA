@@ -1,0 +1,16 @@
+PAGINA 36 Thesis:
+H1: acumule tantos contadores como sea posible en un hoyo. Esta heurística, con una mirada por delante de un movimiento, funciona intentando mantener tantos contadores como sea posible en el hoyo más a la izquierda del tablero. Al final del juego, todos los contadores en un lado del tablero se otorgan a ese lado del jugador. Existe cierta evidencia en la literatura de que este es el mejor pozo en el que acumula tesoros.
+
+H2: Mantenga tantos contadores en el lado del jugador. Esta heurística es una versión generalizada de H1 y se basa en los mismos principios.
+
+H3: tener tantos movimientos como sea posible para elegir. Esta heurística tiene una mirada adelante y explora el posible beneficio de tener más movimientos para elegir.
+
+H4: maximiza la cantidad de contadores en la tienda de un jugador. Esta heurística tiene como objetivo elegir un movimiento que maximice la cantidad de contadores capturados. Tiene una mirada adelante de uno.
+
+H5: Mueve los contadores del pozo más cercano al lado del oponente. Esta heurística, con una mirada por delante de uno, apunta a hacer un movimiento desde el pozo más a la derecha en el tablero. Si está vacío, se verifica el siguiente pozo, y así sucesivamente. Fue elegido porque tiene un buen rendimiento en Kalah [18] y el movimiento de apertura del jugador perfecto en Awari es jugar desde el hoyo más a la derecha.
+
+H6: mantener la puntuación de los oponentes a un mínimo. Esta heurística, con una mirada por delante de dos movimientos, intenta minimizar la cantidad de contadores que un oponente puede ganar en su próximo movimiento.
+**************************************************************************
+
+Otra formula:
+(my_mancala – your_mancala) + (marbles_on_my_side – marbles_on_your_side)
